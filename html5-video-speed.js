@@ -9,26 +9,8 @@
     function iframeDocument( node ) {
         try {
             return node.contentWindow ? node.contentWindow.document : node.contentDocument;
-            if ( node.contentWindow ) {
-                return node.contentWindow.document;
-            } else {
-                return node.contentDocument;
-            }
         } catch ( error ) {
             return console.log( "iframe document is not reachable: " + node.src ), 0;
-        }
-    }
-    var videoElement = find( "video" ),
-        iframeElement = find( "iframe" ),
-        i = 0;
-
-    // Detect Video elements inside of iframe elements
-    for ( ; iframeElement[i]; ) {
-        var iframeVerify = iframeDocument( iframeElement[i++] ),
-            videoElementTmp = iframeVerify && find( "video", iframeVerify ),
-            j = 0;
-        for ( ; videoElementTmp[j]; ) {
-            videoElement[videoElement.length] = videoElementTmp[j++];
         }
     }
 
@@ -47,14 +29,29 @@
 
     // Changes the playbackRate of Video elements
     function refresh( videoSpeedChange ) {
-        var k = 0;
-        input.value = Math.round( parseFloat( input.value ) * 100 + videoSpeedChange ) / 100 ||
+        var videoElement = find( "video" ),
+            iframeElement = find( "iframe" ),
+            i = 0,
+            k = 0;
+
+        // Detect Video elements inside of iframe elements
+        for ( ; iframeElement[i]; ) {
+            var iframeVerify = iframeDocument( iframeElement[i++] ),
+                videoElementTmp = iframeVerify && find( "video", iframeVerify ),
+                j = 0;
+            for ( ; videoElementTmp[j]; ) {
+                videoElement[videoElement.length] = videoElementTmp[j++];
+            }
+        }
+        input.value = parseInt( parseFloat( input.value ) * 100 + videoSpeedChange ) / 100 ||
             1;
         for ( ; videoElement[k]; ) {
             videoElement[k++].playbackRate = input.value;
         }
+        if ( !videoElement[0] ) {
+            alert( "This page does not have any HTML5 videos or they are not reachable." );
+        }
     }
-    if ( videoElement[0] ) {
 
         // Remove previous instance of Video Controllers
         if ( i = find( "#_i3h5v" )[0] ) {
@@ -63,14 +60,16 @@
 
             // Create controller
             var html5VideoControllerElement = doc.createElement( "div" ),
-                btnStyle = "style='box-sizing:box-border;border-radius:0;border:1px solid #000;margin:2px;background:#fff;outline:0;width:24px;height:24px;padding:0;'>";
+                btnStyle = "style='box-sizing:box-border;border-radius:0;" +
+                "border:1px solid #000;margin:2px;background:#fff;outline:0;width:24px;" +
+                "height:24px;padding:0;'>";
             html5VideoControllerElement.setAttribute( "id", "_i3h5v" );
             html5VideoControllerElement.setAttribute( "style", "position:fixed;left:4px;top:4px;" +
                 "z-index:2147483647;background:#fff;padding:2px;border:1px solid #000;" +
                 "font:18px monospace;color:#000" );
-            html5VideoControllerElement.innerHTML = "<input type='text'style='font:18px monospace;" +
-                "margin:2px;padding:0;border:0;outline:0;height:21px;text-align:center;'maxlength='4'" +
-                "size='4'>" +
+            html5VideoControllerElement.innerHTML = "<input type='text'style='" +
+                "font:18px monospace;margin:2px;padding:0;border:0;outline:0;height:21px;" +
+                "text-align:center;'maxlength='4'size='4'>" +
                 "<div id='input'style='margin:0;padding:0;'>" +
                 "<button id='minus'" + btnStyle + "-</button>" +
                 "<button id='plus'" + btnStyle + "+</button>" +
@@ -101,7 +100,4 @@
                 refresh( 0 );
             };
         }
-    } else {
-        alert( "This page does not have any HTML5 videos or they are not reachable." );
-    }
 }( document ) );

@@ -8,6 +8,6 @@
             doc.body.appendChild( scriptElement );
         }
     };
-    xmlRequest.open( "GET", "http://i3wgnit.cf/bookmarklet/", true );
+    xmlRequest.open( "GET", "https://github.com/i3wgnit/bookmarklets/blob/master/html5-video-control.min.js", true );
     xmlRequest.send();
 } ( document ) );
