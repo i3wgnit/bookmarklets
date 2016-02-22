@@ -12,15 +12,6 @@
         html5VideoControllerElement.style.opacity = boolean.contains( "1" ) ? 1 : .5;
     }
 
-    // Return iframe document
-    function iframeDocument( node ) {
-        try {
-            return node.contentWindow ? node.contentWindow.document : node.contentDocument;
-        } catch ( error ) {
-            return console.log( "iframe document is not reachable: " + node.src ), 0;
-        }
-    }
-
     // Remove previous instance of Video Controller
     if ( i = find( "#_i3h5v" )[0] ) {
         doc.body.removeChild( i );
@@ -46,8 +37,7 @@
 
         // Set the currentTime each time the input value changes
         input.onchange = function() {
-            var videoElement = find( "video" ),
-                iframeElement = find( "iframe" ),
+            var videoElement = [].slice.apply( find( "video,audio" ) ),
                 i = 0,
                 k = 0,
                 bufferArr = input.value.split( ":" ),
@@ -59,20 +49,11 @@
                 second = crrTime % 60;
             input.value = ( minute ? minute + ":" : "" ) + ( second > 10 ? "" : "0" ) + second;
 
-            // Detect Video elements inside of iframe elements
-            for ( ; iframeElement[i]; ) {
-                var iframeVerify = iframeDocument( iframeElement[i++] ),
-                    videoElementTmp = iframeVerify && find( "video", iframeVerify ),
-                    j = 0;
-                for ( ; videoElementTmp[j]; ) {
-                    videoElement.push( videoElementTmp[j++] );
-                }
-            }
-
-            for ( ; videoElement[k]; ) {
-                videoElement[k++].currentTime = crrTime;
-            }
-            if ( !videoElement[0] ) {
+            if ( videoElement[0] ) {
+                videoElement.forEach( function( obj ) {
+                    obj.currentTime = crrTime;
+                } );
+            } else {
                 alert( "This page does not have any HTML5 videos or they are not reachable." );
             }
         };
