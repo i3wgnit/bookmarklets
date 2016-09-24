@@ -13,7 +13,7 @@
 
     function check( context ) {
         var frames = find( "iframe", context ),
-            videoElements = [].slice.apply( find( "video,audio" ) );
+            videoElements = [].slice.apply( find( "video,audio", context ) );
 
         frames.forEach( function( element ) {
             [].push.apply( videoElements,
@@ -60,8 +60,8 @@
 
         html5VideoControllerElement.setAttribute( "id", "_i3h5v" );
         html5VideoControllerElement.setAttribute( "style", "position:fixed;left:4px;top:4px;" +
-                                                 "z-index:2147483647;background:#fff;padding:2px;border:1px solid #000;" +
-                                                 "font:18px monospace;color:#000" );
+            "z-index:2147483647;background:#fff;padding:2px;border:1px solid #000;" +
+            "font:18px monospace;color:#000" );
         html5VideoControllerElement.innerHTML = "<input type='text'style='" +
             "font:18px monospace;margin:2px;padding:0;border:0;outline:0;height:21px;" +
             "text-align:center;'maxlength='4'size='4'>" +
