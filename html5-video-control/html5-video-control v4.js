@@ -12,7 +12,7 @@
     }
 
     function check( context ) {
-        var frames = find( "iframe", context ),
+        var frames = [].slice.apply( find( "iframe", context ) ),
             videoElements = [].slice.apply( find( "video,audio", context ) );
 
         frames.forEach( function( element ) {
