@@ -13,11 +13,14 @@
 
     function check( context ) {
         var frames = find( "iframe", context ),
-            videoElements = [].slice.apply( find( "video,audio" ) );
+            videoElements = [].slice.apply( find( "video,audio", context ) );
 
         frames.forEach( function( element ) {
-            [].push.apply( videoElements,
-                       check( iframeDocument( element ) ) );
+            var frameDoc = iframeDocument( element );
+            if ( frameDoc ) {
+                [].push.apply( videoElements,
+                              check( frameDoc ) );
+            }
         } );
 
         return videoElements;
