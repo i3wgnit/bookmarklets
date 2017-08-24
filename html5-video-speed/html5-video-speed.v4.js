@@ -18,8 +18,7 @@
         frames.forEach( function( element ) {
             var frameDoc = iframeDocument( element );
             if ( frameDoc ) {
-                [].push.apply( videoElements,
-                              check( frameDoc ) );
+                videoElements.push( check( frameDoc ) );
             }
         } );
 
