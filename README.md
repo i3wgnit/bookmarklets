@@ -1,8 +1,6 @@
 # bookmarklets
 
-All started when I wanted to run a video at x3 the speed.
-
-It was a good learning experience.
+All started when I wanted to run a video at x3 speed.
 
 ## TODO
 
